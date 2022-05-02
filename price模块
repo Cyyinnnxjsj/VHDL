@@ -1,0 +1,40 @@
+--这是一个将商品价格转换成8421BCD码
+--货物价格：2元:20 	1.5元:15		1元:10 	0.5元:05 
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.all;
+ 
+ENTITY vendor_needmoney0812 IS
+   PORT (
+      nrst        : IN STD_LOGIC;
+      clock       : IN STD_LOGIC;
+      choose      : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+      money_need  : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+      chen        : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+   );
+END vendor_needmoney0812;
+ 
+ARCHITECTURE trans OF vendor_needmoney0812 IS
+BEGIN
+   PROCESS (nrst, clock)
+   BEGIN
+      CASE choose IS
+         WHEN "0001" =>
+            money_need <= "00000101";
+            chen <= "0001";
+         WHEN "0010" =>
+            money_need <= "00001010";
+            chen <= "0010";
+         WHEN "0100" =>
+            money_need <= "00001111";
+            chen <= "0100";
+         WHEN "1000" =>
+            money_need <= "00010100";
+            chen <= "1000";
+         WHEN OTHERS =>
+            money_need <= "00000000";
+            chen <= "0000";
+      END CASE;
+   END PROCESS;
+   
+   
+END trans;
