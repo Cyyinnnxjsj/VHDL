@@ -1,0 +1,42 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.all;
+USE IEEE.STD_LOGIC_UNSIGNED.all;
+ 
+ENTITY vendor_buy0812 IS
+   PORT (
+      nrst        : IN STD_LOGIC;
+      clock       : IN STD_LOGIC;
+      chen        : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+      buy         : IN STD_LOGIC;
+      money       : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      money_need  : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      warn        : OUT STD_LOGIC;
+      change      : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+      LED         : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+   );
+END vendor_buy0812;
+ 
+ARCHITECTURE trans OF vendor_buy0812 IS
+BEGIN
+   PROCESS (nrst, clock)
+   BEGIN
+      IF ((NOT(nrst)) = '1') THEN			--低电平清零
+         LED <= "0000";
+         warn <= '0';
+         change <= "00000000";
+      ELSIF (clock'EVENT AND clock = '1') THEN
+         IF (buy = '1') THEN
+				IF (money_need > money) THEN	--投入硬币不够
+               warn <= '1';
+               change <= money;
+               LED <= "0000";				
+				ELSE
+					change <= money - money_need;
+					LED <= CHEN;
+					END IF;
+         END IF;
+      END IF;
+   END PROCESS;
+   
+   
+END trans;
