@@ -1,0 +1,92 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.all;
+ 
+ENTITY vendor_decoder12 IS
+   PORT (
+      nrst        : IN STD_LOGIC;
+      clock       : IN STD_LOGIC;
+      change      : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      money       : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      money_need  : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      display     : OUT STD_LOGIC_VECTOR(13 DOWNTO 0);
+      display1    : OUT STD_LOGIC_VECTOR(13 DOWNTO 0);
+      display2    : OUT STD_LOGIC_VECTOR(13 DOWNTO 0)
+   );
+END vendor_decoder12;
+ 
+ARCHITECTURE trans OF vendor_decoder12 IS
+BEGIN
+   PROCESS (nrst, clock)
+   BEGIN
+      IF ((NOT(nrst)) = '1') THEN			--初始化，三组数码管均显示0
+         display <= "10000001000000";
+         display1 <= "10000001000000";
+         display2 <= "10000001000000";
+      ELSIF (clock'EVENT AND clock = '1') THEN
+         CASE change IS
+            WHEN "00000000" =>
+               display <= "10000001000000";
+            WHEN "00000101" =>
+               display <= "10000000010010";
+            WHEN "00001010" =>
+               display <= "11110011000000";
+            WHEN "00001111" =>
+               display <= "11110010010010";
+            WHEN "00110010" =>
+               display <= "00100101000000";
+            WHEN "00110111" =>
+               display <= "00100100010010";
+            WHEN "00111100" =>
+               display <= "00000101000000";
+            WHEN "01000001" =>
+               display <= "00000100010010";
+            WHEN "00101101" =>
+               display <= "00110010010010";
+            WHEN "00101000" =>
+               display <= "00110011000000";
+            WHEN "00100011" =>
+               display <= "01100000010010";
+            WHEN "00011110" =>
+               display <= "01100001000000";
+            WHEN OTHERS =>
+               display <= "10000001000000";
+         END CASE;
+         CASE money IS
+            WHEN "00000000" =>
+               display1 <= "10000001000000";
+            WHEN "00000101" =>
+               display1 <= "10000000010010";
+            WHEN "00001010" =>
+               display1 <= "11110011000000";
+            WHEN "00001111" =>
+               display1 <= "11110010010010";
+            WHEN "00110010" =>
+               display1 <= "00100101000000";
+            WHEN "00110111" =>
+               display1 <= "00100100010010";
+            WHEN "00111100" =>
+               display1 <= "00000101000000";
+            WHEN "01000001" =>
+               display1 <= "00000100010010";
+            WHEN OTHERS =>
+               display1 <= "10000001000000";
+         END CASE;
+         CASE money_need IS
+            WHEN "00000000" =>
+               display2 <= "10000001000000";
+            WHEN "00000101" =>
+               display2 <= "10000000010010";
+            WHEN "00001010" =>
+               display2 <= "11110011000000";
+            WHEN "00001111" =>
+               display2 <= "11110010010010";
+            WHEN "00010100" =>
+               display2 <= "01001001000000";
+            WHEN OTHERS =>
+               display2 <= "10000001000000";
+         END CASE;
+      END IF;
+   END PROCESS;
+   
+   
+END trans;
