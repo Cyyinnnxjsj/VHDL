@@ -1,3 +1,4 @@
+--判断投币和商品价格，进行亮灯操作
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.all;
 USE IEEE.STD_LOGIC_UNSIGNED.all;
